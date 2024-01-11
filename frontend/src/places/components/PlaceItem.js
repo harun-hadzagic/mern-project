@@ -6,9 +6,17 @@ import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const toogleMap = () => {
     setShowMap(!showMap);
   };
+  const toggleDeleteModal=()=>{
+    setShowDeleteModal(!showDeleteModal)
+  }
+  const confirmDeleteHandler = ()=>{
+    toggleDeleteModal()
+    console.log("Deleting...")
+  }
   return (
     <React.Fragment>
       <Modal
@@ -23,6 +31,14 @@ const PlaceItem = (props) => {
           <Map center={props.coordinates} zoom={16}/>
         </div>
       </Modal>
+      <Modal show={showDeleteModal} onCancle={toggleDeleteModal} header="Are you sure?" footerClass="place-item__modal-actions" footer={
+        <React.Fragment>
+          <Button inverse onClick={toggleDeleteModal}>CANCLE</Button>
+          <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
+        </React.Fragment>
+      }>
+        <p>Do you want to proceed and delete this place? Please note that it cant be undone later.</p>
+      </Modal>
       <li className="place-item">
         <Card className="place-item__content">
           <div className="place-item__image">
@@ -36,7 +52,7 @@ const PlaceItem = (props) => {
           <div className="place-item__actions">
             <Button inverse onClick={toogleMap}>VIEW ON MAP</Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button danger onClick={toggleDeleteModal}>DELETE</Button>
           </div>
         </Card>
       </li>
