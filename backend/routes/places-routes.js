@@ -12,7 +12,7 @@ router.get("/user/:userId", placesControllers.getPlacesByUserId);
 
 router.post("/", [check('title').not().isEmpty(), check("desctiption").isLength({min: 5}), check("address").not().isEmpty()] ,placesControllers.createPlace)
 
-router.patch("/:placeId", placesControllers.updatePlace)
+router.patch("/:placeId",[check("title").not().isEmpty(), check("description").isLength({min: 5})], placesControllers.updatePlace)
 
 router.delete("/:placeId", placesControllers.deletePlace)
 
