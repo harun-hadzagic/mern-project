@@ -75,7 +75,7 @@ const getPlaceById = (req, res, next) => {
 
   const updatePlace = (req, res, next) =>{
     const errors = validationResult(req)
-    if(errors.isEmpty()){
+    if(!errors.isEmpty()){
         throw new HttpError("Invalid inputs entered", 422)
     }
     const { title, description} = req.body;
