@@ -1,4 +1,5 @@
 const HttpError = require("../models/http-error")
+const {validationResult} = require("express-validator")
 
 const DUMMY_USERS = [
     {
@@ -13,6 +14,10 @@ const getUsers = (req, res, nest)=>{
     res.json({users: DUMMY_USERS})
 }
 const signup = (req, res, nest)=>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        throw new HttpError("Invalid inputs entered", 422)
+    }
     const {name, email, password} = req.body;
 
     const emailExists = DUMMY_USERS.find(user => user.email === email)
